@@ -11,6 +11,9 @@ declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
 declare module 'omit.js';
+declare interface Window {
+  WwLogin?: any;
+}
 
 // google analytics interface
 interface GAFieldsObject {
