@@ -6,7 +6,7 @@
       {
         name: 'login',
         path: '/user/login',
-        component: './user/login',
+        component: './user/login/myLogin',
       },
     ],
   },
