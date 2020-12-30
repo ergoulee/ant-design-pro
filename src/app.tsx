@@ -2,10 +2,11 @@ import React from 'react';
 import { Settings as LayoutSettings, PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
 import { history, RequestConfig, RunTimeLayoutConfig } from 'umi';
+import { Base64 } from 'js-base64';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { ResponseError } from 'umi-request';
-import { queryCurrent } from './services/user';
+// import { queryRules } from './services/user';
 import defaultSettings from '../config/defaultSettings';
 
 /**
@@ -15,6 +16,15 @@ export const initialStateConfig = {
   loading: <PageLoading />,
 };
 
+const jwtToUser = () => {
+  const jwt: string | null = localStorage.getItem('hzttweb-jwt');
+  if (jwt) {
+    const jwtArray = jwt.split('.');
+    return JSON.parse(Base64.decode(jwtArray[1]));
+  }
+  throw new Error('no find jwt!');
+};
+
 export async function getInitialState(): Promise<{
   settings?: LayoutSettings;
   currentUser?: API.CurrentUser;
@@ -22,7 +32,8 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const currentUser = await queryCurrent();
+      const currentUser = jwtToUser();
+      // const currentRules = await queryRules();
       return currentUser;
     } catch (error) {
       history.push('/user/login');
@@ -106,6 +117,23 @@ const errorHandler = (error: ResponseError) => {
   throw error;
 };
 
+const getCookie = (cName: string) => {
+  if (document.cookie.length > 0) {
+    let cStart = document.cookie.indexOf(`${cName}=`);
+    if (cStart !== -1) {
+      cStart = cStart + cName.length + 1;
+      let cEnd = document.cookie.indexOf(';', cStart);
+      if (cEnd === -1) cEnd = document.cookie.length;
+      return unescape(document.cookie.substring(cStart, cEnd));
+    }
+  }
+  return '';
+};
+
 export const request: RequestConfig = {
   errorHandler,
+  headers: {
+    token: localStorage.getItem(`hzttweb-jwt`) || '',
+  },
+  params: { _csrf: getCookie('csrfToken') },
 };
