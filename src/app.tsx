@@ -1,5 +1,6 @@
 import React from 'react';
-import { Settings as LayoutSettings, PageLoading } from '@ant-design/pro-layout';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { PageLoading } from '@ant-design/pro-layout';
 import { notification } from 'antd';
 import { history, RequestConfig, RunTimeLayoutConfig } from 'umi';
 import { Base64 } from 'js-base64';
