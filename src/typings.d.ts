@@ -11,9 +11,6 @@ declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
 declare module 'omit.js';
-// declare interface Window {
-//   WwLogin?: any;
-// }
 
 // google analytics interface
 type GAFieldsObject = {
@@ -24,15 +21,24 @@ type GAFieldsObject = {
   nonInteraction?: boolean;
 };
 
-type Window = {
+// type Window = {
+//   ga: (
+//     command: 'send',
+//     hitType: 'event' | 'pageview',
+//     fieldsObject: GAFieldsObject | string,
+//   ) => void;
+//   reloadAuthorized: () => void;
+// };
+
+declare interface Window {
+  WwLogin?: any;
   ga: (
     command: 'send',
     hitType: 'event' | 'pageview',
     fieldsObject: GAFieldsObject | string,
   ) => void;
   reloadAuthorized: () => void;
-  WwLogin?: any;
-};
+}
 
 declare let ga: () => void;
 
