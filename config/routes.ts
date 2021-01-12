@@ -35,7 +35,7 @@
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
-    component: './ListTableList',
+    component: './TableList',
   },
   {
     path: '/',
